@@ -1,16 +1,40 @@
 <template>
 <b-col cols='9' class='mt-4'>
   <b-table
+    caption-top
     :borderless="true"
     :fields='fields'
     :items='items'
-  ></b-table>
+    :busy="isBusy"
+  >
+    <template #empty>
+      No Tasks
+    </template>
+    <template #table-busy>
+      <div class="text-center text-danger my-2">
+        <b-spinner class="align-middle"></b-spinner>
+        <strong>Loading...</strong>
+      </div>
+    </template>
+    <template #cell(actions)="row">
+      <b-button v-if='row.item.status === "WAITING"' variant="primary" size="sm" class="mr-1" @click='changeTaskStatus(row, "DONE")'>
+        Done
+      </b-button>
+      <b-button v-else-if='row.item.status === "DONE"' variant="dark" size="sm" class="mr-1" @click='changeTaskStatus(row, "WAITING")'>
+        Not Done
+      </b-button>
+    </template>
+  </b-table>
   <b-pagination
+    class='pt-2'
     v-model="page"
-    :total-rows="rows"
+    :key='totalResults'
+    :total-rows="totalResults"
+    :hide-ellipsis='true'
     :per-page="perPage"
-    aria-controls="my-table"
-  ></b-pagination>
+    @change='(clickedPage) => this.page = clickedPage'
+    align='center'
+  />
 </b-col>
 </template>
 
@@ -22,12 +46,16 @@ export default {
   },
   data() {
     return {
+      isBusy: false,
       totalResults: null,
       page: 1,
       perPage: 10,
+      paginationResponse: null,
       fields: [
         { key: 'name', label: 'Task Name' },
-        { key: 'status', label: 'Done'},
+        { key: 'status', label: 'Done', formatter: (value, key, item) => {
+          return value === 'DONE' ? 'Yes' : 'No'
+          }},
         { key: 'modified_at', label: 'Modified'},
         'Actions'
       ],
@@ -43,12 +71,34 @@ export default {
   watch: {
     freshlyCreatedTask: function(newVal) {
       this.handleTaskCreated(newVal);
+    },
+    page: function(val) {
+      this.fetchTasks()
     }
   },
   methods: {
+    async changeTaskStatus(row, toStatus) {
+      try {
+        const url = this.$config.apiBaseURL + '/task/change-status/' + row.item.uuid;
+
+        await this.$axios.post(url, {status: toStatus}, {
+          headers: {
+            'Authorization': 'Bearer ' + this.$auth.strategy.token.get()
+          }
+        })
+        row.item.status = toStatus;
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    changePage(data) {
+      console.log(data)
+    },
     handleTaskCreated(task) {
       this.items.unshift(task);
-      this.totalResults += 1;
+      if (this.page === 1) {
+        this.fetchTasks()
+      }
     },
     async fetchTasks() {
 
@@ -65,9 +115,11 @@ export default {
         })
         this.$set(this, 'items', response.data.data.tasks)
         this.$set(this, 'totalResults', response.data.meta.total)
+        this.paginationResponse = {meta: response.data.meta, links: response.data.links}
       } catch (e) {
         console.log(e)
       }
+      this.isBusy = false;
     }
   }
 }

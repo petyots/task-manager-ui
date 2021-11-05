@@ -7,6 +7,7 @@
     <b-form-input
       class='rounded-0'
       :id=fieldId
+      v-model='modelH'
       @input='handleInput'
       :type='fieldType'
       :placeholder='fieldPlaceholder'
@@ -22,7 +23,20 @@
 <script>
 export default {
   name: 'grouped-form-element',
+  data() {
+    return {
+      modelH:null
+    }
+  },
+  watch: {
+    model: function (val) {
+      this.modelH = val
+    }
+  },
   props: {
+    model: {
+      required: false,
+    },
     groupId: {
       required: true,
       type: String

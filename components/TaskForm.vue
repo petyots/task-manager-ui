@@ -4,12 +4,12 @@
       <GroupedFormElement field-id='name'
                           label='Task Name'
                           field-type='text'
+                          :model='name'
                           :field-is-required='true'
                           v-bind:error='errors.name'
                           @inputChanged='handleInputChange'
                           group-id='task_name_group' />
       <b-button type='submit' class='rounded-0' variant='dark'>Create Task</b-button>
-
     </b-form>
   </b-col>
 </template>

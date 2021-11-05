@@ -1,7 +1,7 @@
 export default {
   publicRuntimeConfig: {
     apiBaseURL: process.env.API_BASE_URL,
-    baseURL: process.env.BASE_URL
+    baseURL: process.env.BASE_URL,
   },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -13,26 +13,22 @@ export default {
   head: {
     title: 'task-manager-ui',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'en',
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
+  plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -49,34 +45,36 @@ export default {
     'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
   ],
 
   auth: {
     strategies: {
-      'jwt': {
+      jwt: {
         provider: 'laravel/jwt',
         url: process.env.BASE_URL,
         token: {
           property: 'access_token',
-          maxAge: 60 * 60
+          maxAge: 120 * 60,
         },
         endpoints: {
-          login: {url: "/auth/login"},
-          logout: {url: "/auth/logout"},
-          refresh: {url: "/auth/refresh"},
-          user: {url: "/auth/me"},
+          login: { url: '/auth/login' },
+          logout: { url: '/auth/logout' },
+          refresh: { url: '/auth/refresh' },
+          user: { url: '/auth/me' },
         },
         refreshToken: {
-          maxAge: 20160 * 60
+          property: 'access_token',
+          tokenRequired: true,
+          data: false,
+          maxAge: 20160 * 60,
         },
       },
-    }
+    },
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  }
+  build: {},
 }

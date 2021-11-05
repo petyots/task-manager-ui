@@ -1,38 +1,40 @@
 <template>
-  <b-col md='6'>
-    <b-card class='rounded-0 mt-4'>
-      <b-row>
-        <b-col md='12'>
-          <b-alert v-if='errors.general !== false' class='rounded-0' show variant='danger'>{{ errors.general }}
-          </b-alert>
+  <b-row class='justify-content-center'>
+    <b-col md='6'>
+      <b-card class='rounded-0 mt-4'>
+        <b-row>
+          <b-col md='12'>
+            <b-alert v-if='errors.general !== false' class='rounded-0' show variant='danger'>{{ errors.general }}
+            </b-alert>
 
-          <b-form @submit.prevent='login'>
-            <GroupedFormElement
-              field-id='email'
-              field-type='email'
-              :field-is-required='true'
-              field-placeholder='Enter your email'
-              group-id='email_group'
-              label='Email'
-              v-bind:error='errors.email'
-              @inputChanged='handleInputChange'
-            />
-            <GroupedFormElement
-              field-id='password'
-              field-type='password'
-              :field-is-required='true'
-              field-placeholder='Enter your password'
-              group-id='password_group'
-              label='Password'
-              v-bind:error='errors.password'
-              @inputChanged='handleInputChange'
-            />
-            <b-button type='submit' class='rounded-0' variant='light'>Login</b-button>
-          </b-form>
-        </b-col>
-      </b-row>
-    </b-card>
-  </b-col>
+            <b-form @submit.prevent='login'>
+              <GroupedFormElement
+                field-id='email'
+                field-type='email'
+                :field-is-required='true'
+                field-placeholder='Enter your email'
+                group-id='email_group'
+                label='Email'
+                v-bind:error='errors.email'
+                @inputChanged='handleInputChange'
+              />
+              <GroupedFormElement
+                field-id='password'
+                field-type='password'
+                :field-is-required='true'
+                field-placeholder='Enter your password'
+                group-id='password_group'
+                label='Password'
+                v-bind:error='errors.password'
+                @inputChanged='handleInputChange'
+              />
+              <b-button type='submit' class='rounded-0' variant='light'>Login</b-button>
+            </b-form>
+          </b-col>
+        </b-row>
+      </b-card>
+    </b-col>
+  </b-row>
 </template>
 
 <script lang='js'>
