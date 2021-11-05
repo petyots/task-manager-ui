@@ -1,6 +1,7 @@
 export default {
   publicRuntimeConfig: {
-    apiBaseURL: process.env.API_BASE_URL
+    apiBaseURL: process.env.API_BASE_URL,
+    baseURL: process.env.BASE_URL
   },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -53,15 +54,18 @@ export default {
 
   auth: {
     strategies: {
-      'laravelJWT': {
+      'jwt': {
         provider: 'laravel/jwt',
-        url: '<laravel url>',
-        endpoints: {
-          ...
-        },
+        url: process.env.BASE_URL,
         token: {
           property: 'access_token',
           maxAge: 60 * 60
+        },
+        endpoints: {
+          login: {url: "/auth/login"},
+          logout: {url: "/auth/logout"},
+          refresh: {url: "/auth/refresh"},
+          user: {url: "/auth/me"},
         },
         refreshToken: {
           maxAge: 20160 * 60

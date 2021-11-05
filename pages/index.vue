@@ -8,5 +8,7 @@
 import Vue from 'vue'
 
 console.log()
-export default Vue.extend({})
+export default Vue.extend({
+  middleware: 'auth'
+})
 </script>
