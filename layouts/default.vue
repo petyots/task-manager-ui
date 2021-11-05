@@ -3,10 +3,8 @@
     <b-container>
       <b-row class='justify-content-center'>
         <MyNavBar />
-        <b-col md='12' class='mt-5'>
-          <Nuxt/>
-        </b-col>
       </b-row>
+      <Nuxt />
     </b-container>
   </div>
 </template>
@@ -19,4 +17,10 @@ export default {
   components: { MyNavBar }
 }
 </script>
+
+<style>
+body {
+  background-color: #f8f9fa;
+}
+</style>
 
