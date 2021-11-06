@@ -3,6 +3,9 @@
 ## Build Setup
 
 ```bash
+# copy .env
+cp .env.example .env
+
 # Run the container
 $ docker compose up -d
 
