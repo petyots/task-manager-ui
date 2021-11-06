@@ -50,7 +50,7 @@ export default {
 
         this.$emit('taskCreated', task)
         this.name = null;
-
+        this.errors.name = false;
       } catch (e) {
         const response = e.response
         if (response.status === 422) {

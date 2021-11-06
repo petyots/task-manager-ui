@@ -75,15 +75,18 @@ export default {
         })
       } catch (e) {
         const response = e.response
-        if (response.status === 422) {
+        if (typeof response !== "undefined" && response.status === 422) {
           const errors = response.data.data.errors
           for (const [field, error] of Object.entries(errors)) {
             this.$set(this.errors, field, error[0])
           }
           this.$set(this.errors, 'general', false)
         } else {
-          this.resetFields()
-          this.$set(this.errors, 'general', response.data.message)
+          if (typeof response !== "undefined") {
+            this.resetFields()
+            this.$set(this.errors, 'general', response.data.message)
+          }
+          this.$set(this.errors, 'general', e.message)
         }
       }
     }

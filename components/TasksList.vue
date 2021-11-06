@@ -17,15 +17,16 @@
       </div>
     </template>
     <template #cell(actions)="row">
-      <b-button v-if='row.item.status === "WAITING"' variant="primary" size="sm" class="mr-1" @click='changeTaskStatus(row, "DONE")'>
+      <b-button v-if='row.item.status === "WAITING"' variant="primary" size="sm" class="mr-1 rounded-0" @click='changeTaskStatus(row, "DONE")'>
         Done
       </b-button>
-      <b-button v-else-if='row.item.status === "DONE"' variant="dark" size="sm" class="mr-1" @click='changeTaskStatus(row, "WAITING")'>
+      <b-button v-else-if='row.item.status === "DONE"' variant="dark" size="sm" class="mr-1 rounded-0" @click='changeTaskStatus(row, "WAITING")'>
         Not Done
       </b-button>
     </template>
   </b-table>
   <b-pagination
+    v-if='items.length > 0'
     class='pt-2'
     v-model="page"
     :key='totalResults'

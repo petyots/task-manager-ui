@@ -114,15 +114,19 @@ export default {
         await this.$router.push('/login')
       } catch (e) {
         const response = e.response
-        if (response.status === 422) {
+        if (typeof response !== "undefined" && response.status === 422) {
           const errors = response.data.data.errors
           for (const [field, error] of Object.entries(errors)) {
             this.$set(this.errors, field, error[0])
           }
           return
         }
-        this.resetFields()
-        this.$set(this.errors, 'general', response.data.message)
+        if (typeof response !== "undefined") {
+          this.resetFields()
+          this.$set(this.errors, 'general', response.data.message)
+        } else {
+          this.$set(this.errors, 'general', e.message)
+        }
       }
 
     }
