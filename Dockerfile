@@ -7,4 +7,5 @@ WORKDIR /app
 ADD . /app
 
 RUN yarn global add nuxt
+RUN yarn global add typescript
 RUN yarn install
