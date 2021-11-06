@@ -6,4 +6,5 @@ RUN mkdir -p /app
 WORKDIR /app
 ADD . /app
 
+RUN yarn global install nuxt
 RUN yarn install
