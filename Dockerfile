@@ -6,6 +6,5 @@ RUN mkdir -p /app
 WORKDIR /app
 ADD . /app
 
-RUN yarn global add nuxt
-RUN yarn global add typescript
+RUN yarn global add typescript nuxt @nuxt/typescript-build @nuxt/types
 RUN yarn install
